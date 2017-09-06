@@ -1,11 +1,39 @@
 package model;
 
-public class Member {
-	private String name;
-	private String email;
+import java.io.Serializable;
+import javax.persistence.*;
+
+import model.CRClass;
+
+import java.util.Date;
+
+
+/**
+ * The persistent class for the member database table.
+ * 
+ */
+@Entity
+@Table(name="member")
+@NamedQuery(name="Member.findAll", query="SELECT m FROM Member m")
+public class Member implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	private int id;
+
+	@Column(name="birthdate")
 	private String birthdate;
-	private CRClass crclass; 
+
+	@Column(name="crclass_id")
+	private int crclassId;
+
+	private String email;
+	@Column (name="name")
+	private String name;
 	
+	@PrimaryKeyJoinColumn
+	private CRClass crclass;
+
 	public Member() {
 	}
 	
@@ -20,38 +48,46 @@ public class Member {
 		this.email=email;
 		this.birthdate=birthdate;
 		this.crclass=crclass;
-	}
-	
-	public String getName() {
-		return name;
+}
+
+	public int getId() {
+		return this.id;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getBirthdate() {
-		return birthdate;
+		return this.birthdate;
 	}
 
 	public void setBirthdate(String birthdate) {
 		this.birthdate = birthdate;
 	}
 
-	public CRClass getCrclass() {
-		return crclass;
+	public int getCrclassId() {
+		return this.crclassId;
 	}
 
-	public void setCrclass(CRClass crclass) {
-		this.crclass = crclass;
+	public void setCrclassId(int crclassId) {
+		this.crclassId = crclassId;
 	}
-	
+
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 }
