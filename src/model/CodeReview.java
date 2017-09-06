@@ -70,5 +70,13 @@ public class CodeReview implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public CRClass getCrclass() {
+		return this.crclass;
+	}
+
+	public void setCrclass(CRClass crclass) {
+		this.crclass = crclass;
+	}
 
 }
