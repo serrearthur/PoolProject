@@ -46,7 +46,7 @@ public class MainController {
 		codeReviews = this.getCodeReviews();
 		classes = this.getClasses();
 
-        em.close();
+        //em.close();
 	}
 	
 	// fonction GetList, SetItem de la liste, deleteItem en fonction de l'id 
