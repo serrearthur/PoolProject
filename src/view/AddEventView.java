@@ -70,7 +70,9 @@ public class AddEventView extends HttpServlet {
         		}
         	}
         	
-        	mainController.getCodeReviews().add(new CodeReview(name, description, date, crclass));
+        	//mainController.getCodeReviews().add(new CodeReview(name, description, date));
+        	Integer classeId = mainController.getClasseId(promo);
+        	mainController.setCodeReview(new CodeReview(name, description, date, classeId));
         	result = "Code Review \""+name+"\" crée avec succès.";
         } else {
             result = "Erreur lors de la création :";

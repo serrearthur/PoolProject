@@ -16,8 +16,19 @@ public class CRClass implements Serializable {
 
 	@Id
 	private int id;
-
+	@Column
 	private String name;
+	@Column
+	private long count;
+
+	public long getCount() {
+		return count;
+	}
+
+
+	public void setCount(long count) {
+		this.count = count;
+	}
 
 	public CRClass() {
 	}

@@ -25,8 +25,8 @@ public class Member implements Serializable {
 	private String birthdate;
 
 	@Column(name="crclass_id")
-	private int crclassId;
-
+	private Integer crclassId;
+	@Column(name="email")
 	private String email;
 	@Column (name="name")
 	private String name;
@@ -37,10 +37,11 @@ public class Member implements Serializable {
 	public Member() {
 	}
 	
-	public Member(String name, String email, String birthdate) {
+	public Member(String name, String email, String birthdate, Integer classeId) {
 		this.name=name;
 		this.email=email;
 		this.birthdate=birthdate;
+		this.crclassId=classeId;
 	}
 	
 	public Member(String name, String email, String birthdate, CRClass crclass) {
@@ -66,11 +67,11 @@ public class Member implements Serializable {
 		this.birthdate = birthdate;
 	}
 
-	public int getCrclassId() {
+	public Integer getCrclassId() {
 		return this.crclassId;
 	}
 
-	public void setCrclassId(int crclassId) {
+	public void setCrclassId(Integer crclassId) {
 		this.crclassId = crclassId;
 	}
 

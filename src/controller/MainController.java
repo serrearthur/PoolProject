@@ -46,7 +46,7 @@ public class MainController {
 		codeReviews = this.getCodeReviews();
 		classes = this.getClasses();
 
-        em.close();
+        //em.close();
 	}
 	
 	// fonction GetList, SetItem de la liste, deleteItem en fonction de l'id 
@@ -109,6 +109,19 @@ public class MainController {
 		q.setParameter("id", id);
 		int result = q.executeUpdate();
 		em.getTransaction().commit();
+		
+		for(int j=0; j<members.size();j++) {
+			if(members.get(j).getId() == id) {
+				for(int i = 0 ; i < classes.size() ; i++) {
+					if(members.get(j).getCrclassId() == classes.get(i).getId()){
+						classes.get(i).setCount(classes.get(i).getCount()-11);
+						i=classes.size();
+					}
+				}
+				j=members.size();
+			}
+		}
+		
 		return result;
 	}
 	
@@ -143,6 +156,15 @@ public class MainController {
 	public Vector<CRClass> getClasses() {
 		Query q = em.createQuery("SELECT crc FROM CRClass crc ");
 		classes = ((Vector) q.getResultList());
+		long count;
+		
+		for(int i = 0 ; i < classes.size() ; i++) {
+			Query q2 = em.createQuery("SELECT count(m.id) FROM Member m WHERE m.crclassId = :id");
+			q2.setParameter("id",classes.get(i).getId());
+			count = (long) q2.getSingleResult();
+			classes.get(i).setCount(count);;
+		}
+		
 		return classes;
 	}
 
@@ -171,6 +193,20 @@ public class MainController {
 		int result = q.executeUpdate();
 		em.getTransaction().commit();
 		return result;
+	}
+	
+	public String getClassName(int id) {
+		Query q = em.createQuery("SELECT c.name FROM CRClass c WHERE c.id = :id");
+		q.setParameter("id",id);
+		String nom = (String) q.getSingleResult();
+		return nom;
+	}
+	
+	public Integer getClasseId(String nom) {
+		Query q = em.createQuery("SELECT c.id FROM CRClass c WHERE c.name = :nom");
+		q.setParameter("nom",nom);
+		Integer id = (Integer) q.getSingleResult();
+		return id;
 	}
 
 }

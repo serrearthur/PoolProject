@@ -70,7 +70,9 @@ public class AddMemberView extends HttpServlet{
         		}
         	}
         	
-        	mainController.getMembers().add(new Member(name, email, birthdate, crclass));
+        	//mainController.getMembers().add(new Member(name, email, birthdate));
+        	Integer classeId = mainController.getClasseId(promo);
+        	mainController.setMember(new Member(name, email, birthdate,classeId));
         	result = "Utilisateur \""+name+"\" crée avec succès.";
         } else {
             result = "Erreur lors de la création :";

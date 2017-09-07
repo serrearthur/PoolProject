@@ -20,23 +20,23 @@ public class CodeReview implements Serializable {
 
 	@Id
 	private int id;
-
+	@Column
 	private String dateTime;
-
+	@Column
 	private String description;
-
+	@Column
 	private String name;
-	@PrimaryKeyJoinColumn
-	private CRClass crclass;
-
+	@Column(name="crclass_id")
+	private Integer crclassId;
+	
 	public CodeReview() {
 	}
 	
-	public CodeReview(String name, String description, String datetime, CRClass crclass ) {
+	public CodeReview(String name, String description, String datetime, Integer crclassId) {
 		this.name=name;
 		this.description=description;
 		this.dateTime=datetime;
-		this.crclass=crclass;
+		this.crclassId = crclassId;
 }
 
 	public int getId() {
@@ -71,4 +71,14 @@ public class CodeReview implements Serializable {
 		this.name = name;
 	}
 
+	
+	public Integer getCrclassId() {
+		return this.crclassId;
+	}
+	
+
+
+	public void setCrclassId(Integer crclassId) {
+		this.crclassId = crclassId;
+	}
 }

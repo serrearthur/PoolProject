@@ -28,7 +28,8 @@ public class AddPromotionView extends HttpServlet{
     	boolean error=false;
     	try {
     		validateClassName(name);
-    		mainController.getClasses().add(new CRClass(name));
+    		//mainController.getClasses().add(new CRClass(name));
+    		mainController.setClasse(new CRClass(name));
     		result="Promotion \""+name+"\" crée";
     	} catch (Exception e) {
     		result=e.getMessage();

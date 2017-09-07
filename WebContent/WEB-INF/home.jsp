@@ -146,23 +146,30 @@
                                     <div class="table-responsive">
                                         <table class="table table-hover table-striped">
                                             <thead>
-                                                <tr>
+                                                <tr>                                                
                                                     <th>Nom</th>
                                                     <th>Email</th>
                                                     <th>Promotion</th>
-                                                    <th class="text-right">Action</th>
+                                                    <th class="text-right">Action</th>                                                   
                                                 </tr>
                                             </thead>
                                             <tbody>
 												<c:forEach items="${currentMembers}" var="m">
 													<tr>
-													    <td><c:out value="${m.name}" /></td>
-													    <td><c:out value="${m.email}" /></td>
-													    <td><c:out value="${m.crclass.name}" /></td>
+													<form action="" method="post" class="">
+													    <td><input type="text" class="input-lg form-control" id="name" name="memberName" placeholder="Nom" value="<c:out value="${m.name}"/>"></td>
+													    <td><input type="email" class="input-lg form-control" id="email" name="memberEmail" placeholder="Adresse Email" value="<c:out value="${m.email}"/>"></td>
+													    <td><select class="input-lg form-control" id="promotion" name="memberPromotion">
+			                                            	<option>${controller.getClassName(m.getCrclassId())}</option>
+			                                                <c:forEach items="${controller.getClasses()}" var="p">
+			                                                	<option>${p.getName()}</option>
+			                                                </c:forEach>
+			                                            </select></td>
 													    <td  class="text-right">
-													        <a href="#" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Modifier</a>
+													        <button type="submit" class="btn btn-sm btn-warning"> <i class="fa fa-pencil"></i> Modifier</button>
 													        <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Supprimer</a>
 													    </td>
+													</form>
 													</tr>
 												</c:forEach>
                                             </tbody>
@@ -200,12 +207,12 @@
  								<c:forEach items="${controller.codeReviews}" var="cr">
 	 								<tr>
 	                                    <td><c:out value="${cr.name}" /></td>
-	                                    <td><c:out value="${cr.crclass.name}" /></td>
-	                                    <td class="text-right"><span class="text-muted small"><c:out value="${cr.datetime}" /></span></td>
+	                                    <td>Promotion <c:out value="${controller.getClassName(cr.getCrclassId())}" /></td>
+	                                    <td class="text-right"><span class="text-muted small"><c:out value="${cr.dateTime}" /></span></td>
 	                                </tr>
 	                            </c:forEach>
                             </table>
-                            <a href="#" class="btn btn-default btn-block">Programmer une code review</a>
+                            <a href="<c:url value="/add_event"/>" class="btn btn-default btn-block">Programmer une code review</a>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -220,14 +227,14 @@
                             <div class="list-group">
                             	<c:forEach items="${controller.classes}" var="cl">
 	                            	<a href="#" class="list-group-item">
-	                                    <i class="fa fa-users fa-fw"></i> <c:out value="${cl.name}" />
-	                                    <span class="pull-right text-muted small"><em><c:out value="${cl.members.size()}" /> membres</em>
+	                                    <i class="fa fa-users fa-fw"></i> Promotion <c:out value="${cl.name}" />
+	                                    <span class="pull-right text-muted small"><em><c:out value="${cl.getCount()}" /> membres</em>
 	                                    </span>
 	                                </a>
                             	</c:forEach>
                             </div>
                             <!-- /.list-group -->
-                            <a href="#" class="btn btn-default btn-block">Créer une nouvelle promotion</a>
+                            <a href="<c:url value="/add_promotion"/>" class="btn btn-default btn-block">Créer une nouvelle promotion</a>
                         </div>
                         <!-- /.panel-body -->
                     </div>
