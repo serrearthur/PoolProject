@@ -101,15 +101,13 @@ public class MainController {
 		em.getTransaction().begin();
 		em.persist(member);
 		em.getTransaction().commit();
-		/*
-		member.getCrclassId();
+
 		for(int i = 0 ; i < classes.size() ; i++) {
-			classes.get(i).setCount(count);
+			if(member.getCrclassId() == classes.get(i).getId()){
+				classes.get(i).setCount(classes.get(i).getCount()+1);
+				i=classes.size();
+			}
 		}
-		int i = 0;
-		while(member.getCrclassId() != classes.get(i)) {
-			
-		}*/
 	}
 	
 	public int deleteMember(int id) {
@@ -118,6 +116,19 @@ public class MainController {
 		q.setParameter("id", id);
 		int result = q.executeUpdate();
 		em.getTransaction().commit();
+		
+		for(int j=0; j<members.size();j++) {
+			if(members.get(j).getId() == id) {
+				for(int i = 0 ; i < classes.size() ; i++) {
+					if(members.get(j).getCrclassId() == classes.get(i).getId()){
+						classes.get(i).setCount(classes.get(i).getCount()-11);
+						i=classes.size();
+					}
+				}
+				j=members.size();
+			}
+		}
+		
 		return result;
 	}
 	
@@ -196,6 +207,13 @@ public class MainController {
 		q.setParameter("id",id);
 		String nom = (String) q.getSingleResult();
 		return nom;
+	}
+	
+	public Integer getClasseId(String nom) {
+		Query q = em.createQuery("SELECT c.id FROM CRClass c WHERE c.name = :nom");
+		q.setParameter("nom",nom);
+		Integer id = (Integer) q.getSingleResult();
+		return id;
 	}
 
 }

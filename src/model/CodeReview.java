@@ -32,10 +32,11 @@ public class CodeReview implements Serializable {
 	public CodeReview() {
 	}
 	
-	public CodeReview(String name, String description, String datetime) {
+	public CodeReview(String name, String description, String datetime, int crclassId) {
 		this.name=name;
 		this.description=description;
 		this.dateTime=datetime;
+		this.crclassId = crclassId;
 }
 
 	public int getId() {
