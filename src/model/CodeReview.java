@@ -27,12 +27,12 @@ public class CodeReview implements Serializable {
 	@Column
 	private String name;
 	@Column(name="crclass_id")
-	private int crclassId;
+	private Integer crclassId;
 
 	public CodeReview() {
 	}
 	
-	public CodeReview(String name, String description, String datetime, int crclassId) {
+	public CodeReview(String name, String description, String datetime, Integer crclassId) {
 		this.name=name;
 		this.description=description;
 		this.dateTime=datetime;
@@ -71,11 +71,11 @@ public class CodeReview implements Serializable {
 		this.name = name;
 	}
 	
-	public int getCrclassId() {
+	public Integer getCrclassId() {
 		return this.crclassId;
 	}
 
-	public void setCrclassId(int crclassId) {
+	public void setCrclassId(Integer crclassId) {
 		this.crclassId = crclassId;
 	}
 }
