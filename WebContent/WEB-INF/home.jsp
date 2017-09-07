@@ -158,7 +158,7 @@
 													<tr>
 													    <td><c:out value="${m.name}" /></td>
 													    <td><c:out value="${m.email}" /></td>
-													    <td><c:out value="${m.crclass.name}" /></td>
+													    <td><c:out value="${controller.getClassName(m.getCrclassId())}" /></td>
 													    <td  class="text-right">
 													        <a href="#" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Modifier</a>
 													        <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Supprimer</a>
@@ -200,7 +200,7 @@
  								<c:forEach items="${controller.codeReviews}" var="cr">
 	 								<tr>
 	                                    <td><c:out value="${cr.name}" /></td>
-	                                    <td><c:out value="${cr.crclass.name}" /></td>
+	                                    <td><c:out value="${controller.getClassName(cr.getCrclassId())}" /></td>
 	                                    <td class="text-right"><span class="text-muted small"><c:out value="${cr.dateTime}" /></span></td>
 	                                </tr>
 	                            </c:forEach>
@@ -221,7 +221,7 @@
                             	<c:forEach items="${controller.classes}" var="cl">
 	                            	<a href="#" class="list-group-item">
 	                                    <i class="fa fa-users fa-fw"></i> <c:out value="${cl.name}" />
-	                                    <span class="pull-right text-muted small"><em><c:out value="${cl.members.size()}" /> membres</em>
+	                                    <span class="pull-right text-muted small"><em><c:out value="${cl.getCount()}" /> membres</em>
 	                                    </span>
 	                                </a>
                             	</c:forEach>

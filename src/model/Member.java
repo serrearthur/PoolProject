@@ -28,9 +28,6 @@ public class Member implements Serializable {
 	private String email;
 	@Column (name="name")
 	private String name;
-	
-	@PrimaryKeyJoinColumn
-	private CRClass crclass;
 
 	public Member() {
 	}
@@ -40,13 +37,6 @@ public class Member implements Serializable {
 		this.email=email;
 		this.birthdate=birthdate;
 	}
-	
-	public Member(String name, String email, String birthdate, CRClass crclass) {
-		this.name=name;
-		this.email=email;
-		this.birthdate=birthdate;
-		this.crclass=crclass;
-}
 
 	public int getId() {
 		return this.id;
@@ -86,14 +76,6 @@ public class Member implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	public CRClass getCrclass() {
-		return this.crclass;
-	}
-
-	public void setCrclass(CRClass crclass) {
-		this.crclass = crclass;
 	}
 
 }

@@ -101,6 +101,15 @@ public class MainController {
 		em.getTransaction().begin();
 		em.persist(member);
 		em.getTransaction().commit();
+		/*
+		member.getCrclassId();
+		for(int i = 0 ; i < classes.size() ; i++) {
+			classes.get(i).setCount(count);
+		}
+		int i = 0;
+		while(member.getCrclassId() != classes.get(i)) {
+			
+		}*/
 	}
 	
 	public int deleteMember(int id) {
@@ -143,6 +152,15 @@ public class MainController {
 	public Vector<CRClass> getClasses() {
 		Query q = em.createQuery("SELECT crc FROM CRClass crc ");
 		classes = ((Vector) q.getResultList());
+		long count;
+		
+		for(int i = 0 ; i < classes.size() ; i++) {
+			Query q2 = em.createQuery("SELECT count(m.id) FROM Member m WHERE m.crclassId = :id");
+			q2.setParameter("id",classes.get(i).getId());
+			count = (long) q2.getSingleResult();
+			classes.get(i).setCount(count);;
+		}
+		
 		return classes;
 	}
 
@@ -171,6 +189,13 @@ public class MainController {
 		int result = q.executeUpdate();
 		em.getTransaction().commit();
 		return result;
+	}
+	
+	public String getClassName(int id) {
+		Query q = em.createQuery("SELECT c.name FROM CRClass c WHERE c.id = :id");
+		q.setParameter("id",id);
+		String nom = (String) q.getSingleResult();
+		return nom;
 	}
 
 }

@@ -1,7 +1,13 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
+
+import static javax.persistence.AccessType.FIELD;
+import static javax.persistence.AccessType.PROPERTY;
 
 
 /**
@@ -16,12 +22,13 @@ public class CRClass implements Serializable {
 
 	@Id
 	private int id;
-
+	@Column
 	private String name;
+	@Column
+	private long count;	
 
 	public CRClass() {
 	}
-	
 	
 	public CRClass(String name) {
 		this.name=name;
@@ -42,5 +49,12 @@ public class CRClass implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
+	public long getCount() {
+		return count;
+	}
+	
+	public void setCount(long count) {
+		this.count = count;
+	}
 }
