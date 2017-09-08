@@ -64,7 +64,7 @@ public class MainController {
 			em.getTransaction().begin();
 			em.persist(codeReview);
 			em.getTransaction().commit();
-	    } catch (Exception e) {
+	    } catch (IllegalStateException e) {
 	    	em.getTransaction().rollback();
 	    }
 	}
@@ -75,7 +75,7 @@ public class MainController {
 			codeReview.setId(id);
 			em.merge(codeReview);
 			em.getTransaction().commit();
-	    } catch (Exception e) {
+	    } catch (IllegalStateException e) {
 	    	em.getTransaction().rollback();
 	    }
 	}
@@ -99,7 +99,7 @@ public class MainController {
 			em.getTransaction().begin();
 			em.persist(member);
 			em.getTransaction().commit();
-	    } catch (Exception e) {
+	    } catch (IllegalStateException e) {
 	    	em.getTransaction().rollback();
 	    }
 
@@ -118,7 +118,7 @@ public class MainController {
 			Member member = em.find(Member.class, id);
 			em.remove(member);
 			em.getTransaction().commit();
-	    } catch (Exception e) {
+	    } catch (IllegalStateException e) {
 	    	em.getTransaction().rollback();
 	    }
 		
@@ -141,7 +141,7 @@ public class MainController {
 			member.setId(id);
 			em.merge(member);
 			em.getTransaction().commit();
-	    } catch (Exception e) {
+	    } catch (IllegalStateException e) {
 	    	em.getTransaction().rollback();
 	    }
 
@@ -189,7 +189,7 @@ public class MainController {
 			em.getTransaction().begin();
 			em.persist(classe);
 			em.getTransaction().commit();
-	    } catch (Exception e) {
+	    } catch (IllegalStateException e) {
 	    	em.getTransaction().rollback();
 	    }
 	}
@@ -200,7 +200,7 @@ public class MainController {
 			CodeReview crc = em.find(CodeReview.class, id);
 			em.remove(crc);
 			em.getTransaction().commit();
-	    } catch (Exception e) {
+	    } catch (IllegalStateException e) {
 	    	em.getTransaction().rollback();
 	    }
 	}	
