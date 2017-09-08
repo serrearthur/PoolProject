@@ -24,7 +24,8 @@ public class HomeView extends HttpServlet{
 	public static final String FIELD_NAME   = "memberName";
 	public static final String FIELD_EMAIL   = "memberEmail";
 	public static final String FIELD_PROMO   = "memberPromotion";
-	public static final String FIELD_ID  = "memberId";
+	public static final String FIELD_IDMEMBER  = "memberId";
+	public static final String FIELD_IDCR  = "CRId";
 	public static final String FIELD_BIRTH = "memberBirthdate";
 	
 	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
@@ -47,17 +48,39 @@ public class HomeView extends HttpServlet{
 	
 	public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 		MainController mainController=MainController.getInstance();
-		boolean flag = false;
+		String bouton="";
+		Object test;
+		int id=-1;
 		
 		Enumeration names = request.getParameterNames();
 		
 		for(;names.hasMoreElements();) {
-			if(names.nextElement().equals("supprimer")) flag=true;			
+			test = names.nextElement();
+			if(test.equals("supprimerMember")) {
+				bouton="supprimerMember";
+				id = Integer.parseInt(request.getParameter(FIELD_IDMEMBER));
+				break;
+			}
+			else if(test.equals("modifierMember")){
+				bouton="modifierMember";
+				id = Integer.parseInt(request.getParameter(FIELD_IDMEMBER));
+				break;
+			}
+			else if(test.equals("modifierCR")){
+				bouton="modifierCR";
+				id = Integer.parseInt(request.getParameter(FIELD_IDCR));
+				break;
+			}
+			else if(test.equals("supprimerCR")){
+				bouton="supprimerCR";
+				id = Integer.parseInt(request.getParameter(FIELD_IDCR));
+				break;
+			}
 		}
 		
-		int id=Integer.parseInt(request.getParameter(FIELD_ID));
-		
-		if(flag==false) {
+
+
+		if(bouton=="modifierMember") {
 		String name=request.getParameter(FIELD_NAME);
 		String email=request.getParameter(FIELD_EMAIL);
 		String promo=request.getParameter(FIELD_PROMO);
@@ -105,10 +128,18 @@ public class HomeView extends HttpServlet{
         request.setAttribute("result", result);
 		this.doGet(request, response);
 		}
-		else {
+		else if (bouton=="supprimerMember") {
 			mainController.deleteMember(id);
 			this.doGet(request, response);
 		}
+		else if (bouton=="supprimerCR") {
+			mainController.deleteCR(id);
+			this.doGet(request, response);
+		}
+		else if(bouton=="modifierCR") {
+			
+		}
+		
 	}
 	
 	private void validationName(String name) throws Exception {

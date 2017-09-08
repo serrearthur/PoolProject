@@ -176,6 +176,16 @@ public class MainController {
 	    }
 	}
 	
+	public void deleteCR(int id) {		
+		try {
+			em.getTransaction().begin();
+			CodeReview crc = em.find(CodeReview.class, id);
+			em.remove(crc);
+			em.getTransaction().commit();
+	    } catch (Exception e) {
+	    	em.getTransaction().rollback();
+	    }
+	}	
 	
 	public String getClassName(int id) {
 		try{
