@@ -158,7 +158,8 @@
 													<tr>
 													<form action="" method="post" class="">
 													    <td><input type="text" class="input-lg form-control" id="name" name="memberName" placeholder="Nom" value="<c:out value="${m.name}"/>"></td>
-													    <td><input type="email" class="input-lg form-control" id="email" name="memberEmail" placeholder="Adresse Email" value="<c:out value="${m.email}"/>"></td>
+													    <td><input type="email" class="input-lg form-control" id="email" name="memberEmail" placeholder="Adresse Email" value="<c:out value="${m.email}"/>">
+													    <input type="hidden" class="input-lg form-control" id="id" name="memberId" value="<c:out value="${m.id}"/>"></td>
 													    <td><select class="input-lg form-control" id="promotion" name="memberPromotion">
 			                                            	<option>${controller.getClassName(m.getCrclassId())}</option>
 			                                                <c:forEach items="${controller.getClasses()}" var="p">

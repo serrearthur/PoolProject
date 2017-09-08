@@ -38,6 +38,12 @@ public class Member implements Serializable {
 		this.birthdate=birthdate;
 		this.crclassId=classeId;
 	}
+	
+	public Member(String name, String email, Integer classeId) {
+		this.name=name;
+		this.email=email;
+		this.crclassId=classeId;
+	}
 
 	public int getId() {
 		return this.id;

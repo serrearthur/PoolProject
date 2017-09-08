@@ -132,21 +132,22 @@ public class MainController {
 		return result;
 	}
 	
-	public int updateMember(Member member) {
+	public int updateMember(Member member, int id) {
 		em.getTransaction().begin();
 		Query q = em.createQuery(" UPDATE Member SET name= :name"
 				+ ", email= :email"
-				+ ", birthdate= :birthdate"
 				+ ", crclassId= :crclass_id "
 				+ " WHERE id = :id ");
 		
 		q.setParameter("name", member.getName());
 		q.setParameter("email", member.getEmail());
-		q.setParameter("birthdate", member.getBirthdate());
 		q.setParameter("crclass_id", member.getCrclassId());
-		q.setParameter("id", member.getId());
+		q.setParameter("id", id);
 		int result = q.executeUpdate();
 		em.getTransaction().commit();
+		
+		setClassCount();
+		
 		return result;
 	}
 	
@@ -163,18 +164,22 @@ public class MainController {
 	public Vector<CRClass> getClasses() {
 		Query q = em.createQuery("SELECT crc FROM CRClass crc ");
 		classes = ((Vector) q.getResultList());
-		long count;
 		
+		setClassCount();
+		
+		return classes;
+	}
+	
+	public void setClassCount() {
+		long count;
 		for(int i = 0 ; i < classes.size() ; i++) {
 			Query q2 = em.createQuery("SELECT count(m.id) FROM Member m WHERE m.crclassId = :id");
 			q2.setParameter("id",classes.get(i).getId());
 			count = (long) q2.getSingleResult();
 			classes.get(i).setCount(count);;
 		}
-		
-		return classes;
 	}
-
+	
 	public void setClasse(CRClass classe) {
 		em.getTransaction().begin();
 		em.persist(classe);
