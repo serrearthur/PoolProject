@@ -22,7 +22,6 @@
 </head>
 
 <body>
-
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -161,14 +160,15 @@
 													    <td><input type="email" class="input-lg form-control" id="email" name="memberEmail" placeholder="Adresse Email" value="<c:out value="${m.email}"/>">
 													    <input type="hidden" class="input-lg form-control" id="id" name="memberId" value="<c:out value="${m.id}"/>"></td>
 													    <td><select class="input-lg form-control" id="promotion" name="memberPromotion">
-			                                            	<option>${controller.getClassName(m.getCrclassId())}</option>
 			                                                <c:forEach items="${controller.getClasses()}" var="p">
-			                                                	<option>${p.getName()}</option>
+			                                                	<option <c:if test="${p.getId()==m.getCrclassId()}"> selected </c:if> >
+			                                                	${p.getName()}
+			                                                	</option>
 			                                                </c:forEach>
 			                                            </select></td>
 													    <td  class="text-right">
-													        <button type="submit" class="btn btn-sm btn-warning"> <i class="fa fa-pencil"></i> Modifier</button>
-<%-- 													        <button type="button" onClick="${controller.deleteMember(m.getId())}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> ${m.getId()}Supprimer</button> --%>
+													        <button type="submit" class="btn btn-sm btn-warning" name="modifier"> <i class="fa fa-pencil"></i> Modifier</button>
+ 													        <button type="submit" class="btn btn-sm btn-danger" name="supprimer"><i class="fa fa-trash"></i> Supprimer</button>
 													    </td>
 													</form>
 													</tr>
@@ -262,7 +262,7 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="./resources/js/bootstrap.min.js"></script>
-	
+
 </body>
 
 </html>

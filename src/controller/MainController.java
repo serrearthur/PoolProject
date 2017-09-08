@@ -96,10 +96,15 @@ public class MainController {
 	
 	public int deleteMember(int id) {
 		em.getTransaction().begin();
+		Member member = em.find(Member.class, id);
+		em.remove(member);
+		/*
 		Query q = em.createQuery("DELETE FROM Member WHERE id = :id");
 		q.setParameter("id", id);
 		int result = q.executeUpdate();
+		*/
 		em.getTransaction().commit();
+		//members = this.getMembers();
 		
 		for(int j=0; j<members.size();j++) {
 			if(members.get(j).getId() == id) {
@@ -113,7 +118,7 @@ public class MainController {
 			}
 		}
 		
-		return result;
+		return 1;
 	}
 	
 	public int updateMember(Member member, int id) {
@@ -133,7 +138,7 @@ public class MainController {
 */
 		em.getTransaction().commit();
 		setClassCount();
-		members = this.getMembers();
+		//members = this.getMembers();
 		
 		return 1;
 	}

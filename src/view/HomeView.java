@@ -3,6 +3,7 @@ package view;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Enumeration;
 import java.util.Vector;
 
 import javax.servlet.ServletException;
@@ -45,10 +46,21 @@ public class HomeView extends HttpServlet{
 	
 	public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 		MainController mainController=MainController.getInstance();
+		boolean flag = false;
+		
+		Enumeration names = request.getParameterNames();
+		
+		for(;names.hasMoreElements();) {
+			if(names.nextElement().equals("supprimer")) flag=true;			
+		}
+		
+		int id=Integer.parseInt(request.getParameter(FIELD_ID));
+		
+		if(flag==false) {
 		String name=request.getParameter(FIELD_NAME);
 		String email=request.getParameter(FIELD_EMAIL);
 		String promo=request.getParameter(FIELD_PROMO);
-		int id=Integer.parseInt(request.getParameter(FIELD_ID));
+		
 		
 		String result;
         Vector<String> errors = new Vector<String>();
@@ -86,10 +98,14 @@ public class HomeView extends HttpServlet{
             result = "Erreur lors de la création :";
         }
 
-		request.setAttribute("controller", mainController);
+		//request.setAttribute("controller", mainController);
 		request.setAttribute("errors", errors );
         request.setAttribute("result", result);
-		this.getServletContext().getRequestDispatcher(View).forward(request, response );
+		this.doGet(request, response);
+		}
+		else {
+			mainController.deleteMember(id);
+		}
 	}
 	
 	private void validationName(String name) throws Exception {
