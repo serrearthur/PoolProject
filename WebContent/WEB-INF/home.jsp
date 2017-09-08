@@ -210,7 +210,7 @@
 									    <td><input type="text" class="input-lg form-control" id="crName" name="crName" placeholder="NomCodeReview" value="${cr.name}"></td>
 									    <td><input type="hidden" class="input-lg form-control" id="desc" name="crDesc" placeholder="Description" value="<c:out value="${m.description}"/>"></td>
 									    <td class="text-right"><span class="text-muted small"><input type="date" class="input-lg form-control" id="crDate" name="crDate" placeholder="Date" value="${cr.dateTime}"></span>
-									    <input type="hidden" class="input-lg form-control" id="id" name="CRId" value="${cr.id}"></td>
+									    <input type="hidden" class="input-lg form-control" id="id" name="crId" value="${cr.id}"></td>
 									    <td><select class="input-lg form-control" id="promotion" name="crPromotion">
 									    <option></option>
                                                <c:forEach items="${controller.getClasses()}" var="p">			                                                

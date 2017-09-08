@@ -69,6 +69,17 @@ public class MainController {
 	    }
 	}
 	
+	public void updateCodeReview(CodeReview codeReview, int id) {
+		try {
+			em.getTransaction().begin();
+			codeReview.setId(id);
+			em.merge(codeReview);
+			em.getTransaction().commit();
+	    } catch (Exception e) {
+	    	em.getTransaction().rollback();
+	    }
+	}
+	
 	public Vector<Member> getMembersClass(int id){	
 		Query q = em.createQuery("SELECT m FROM Member m WHERE m.crclassId = :id");
 		q.setParameter("id",id);

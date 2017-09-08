@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.MainController;
 import model.CRClass;
+import model.CodeReview;
 import model.Member;
 
 public class HomeView extends HttpServlet{
@@ -21,12 +22,16 @@ public class HomeView extends HttpServlet{
 	
 	public static final String View="/WEB-INF/home.jsp";
 	public static final int memberPageSize=7;
-	public static final String FIELD_NAME   = "memberName";
-	public static final String FIELD_EMAIL   = "memberEmail";
-	public static final String FIELD_PROMO   = "memberPromotion";
-	public static final String FIELD_IDMEMBER  = "memberId";
-	public static final String FIELD_IDCR  = "CRId";
-	public static final String FIELD_BIRTH = "memberBirthdate";
+	public static final String FIELD_NAME_MEMBER   = "memberName";
+	public static final String FIELD_EMAIL_MEMBER   = "memberEmail";
+	public static final String FIELD_PROMO_MEMBER   = "memberPromotion";
+	public static final String FIELD_ID_MEMBER  = "memberId";
+	public static final String FIELD_ID_CR  = "crId";
+	public static final String FIELD_NAME_CR  = "crName";
+	public static final String FIELD_DESC_CR  = "crDesc";
+	public static final String FIELD_PROMO_CR  = "crPromotion";
+	public static final String FIELD_DATE_CR  = "crDate";
+	public static final String FIELD_BIRTH_MEMBER = "memberBirthdate";
 	
 	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 		MainController mainController=MainController.getInstance(); //recuperation du controlleur
@@ -58,22 +63,22 @@ public class HomeView extends HttpServlet{
 			test = names.nextElement();
 			if(test.equals("supprimerMember")) {
 				bouton="supprimerMember";
-				id = Integer.parseInt(request.getParameter(FIELD_IDMEMBER));
+				id = Integer.parseInt(request.getParameter(FIELD_ID_MEMBER));
 				break;
 			}
 			else if(test.equals("modifierMember")){
 				bouton="modifierMember";
-				id = Integer.parseInt(request.getParameter(FIELD_IDMEMBER));
+				id = Integer.parseInt(request.getParameter(FIELD_ID_MEMBER));
 				break;
 			}
 			else if(test.equals("modifierCR")){
 				bouton="modifierCR";
-				id = Integer.parseInt(request.getParameter(FIELD_IDCR));
+				id = Integer.parseInt(request.getParameter(FIELD_ID_CR));
 				break;
 			}
 			else if(test.equals("supprimerCR")){
 				bouton="supprimerCR";
-				id = Integer.parseInt(request.getParameter(FIELD_IDCR));
+				id = Integer.parseInt(request.getParameter(FIELD_ID_CR));
 				break;
 			}
 		}
@@ -81,10 +86,67 @@ public class HomeView extends HttpServlet{
 
 
 		if(bouton=="modifierMember") {
-		String name=request.getParameter(FIELD_NAME);
-		String email=request.getParameter(FIELD_EMAIL);
-		String promo=request.getParameter(FIELD_PROMO);
-		String birth=request.getParameter(FIELD_BIRTH);
+			String name=request.getParameter(FIELD_NAME_MEMBER);
+			String email=request.getParameter(FIELD_EMAIL_MEMBER);
+			String promo=request.getParameter(FIELD_PROMO_MEMBER);
+			String birth=request.getParameter(FIELD_BIRTH_MEMBER);
+			
+			
+			String result;
+	        Vector<String> errors = new Vector<String>();
+			
+			try {
+	            validationName(name);
+	        } catch ( Exception e ) {
+	            errors.add(e.getMessage() );
+	        }
+			try {
+	            validationEmail(email);
+	        } catch ( Exception e ) {
+	            errors.add(e.getMessage() );
+	        }
+			try {
+	            validationPromo(promo);
+	        } catch ( Exception e ) {
+	            errors.add(e.getMessage() );
+	        }
+			
+	        if ( errors.isEmpty() ) {
+	        	CRClass crclass=null;
+	        	for (CRClass c : mainController.getClasses()) {
+	        		if (c.getName().equals(promo)) {
+	        			crclass=c;
+	        			break;
+	        		}
+	        	}
+	        	
+	        	//mainController.getMembers().add(new Member(name, email, birthdate));
+	        	Integer classeId = mainController.getClasseId(promo);
+	        	mainController.updateMember(new Member(name, email,birth,classeId),id);
+	        	result = "Utilisateur \""+name+"\" crée avec succès.";
+	        } else {
+	            result = "Erreur lors de la création :";
+	        }
+
+			//request.setAttribute("controller", mainController);
+			request.setAttribute("errors", errors );
+	        request.setAttribute("result", result);
+			this.doGet(request, response);
+		}
+		else if (bouton=="supprimerMember") {
+			mainController.deleteMember(id);
+			this.doGet(request, response);
+		}
+		else if (bouton=="supprimerCR") {
+			mainController.deleteCR(id);
+			this.doGet(request, response);
+		}
+		else if(bouton=="modifierCR") {
+			
+		String name=request.getParameter(FIELD_NAME_CR);
+		String desc=request.getParameter(FIELD_DESC_CR);
+		String promo=request.getParameter(FIELD_PROMO_CR);
+		String date=request.getParameter(FIELD_DATE_CR);
 		
 		
 		String result;
@@ -96,7 +158,7 @@ public class HomeView extends HttpServlet{
             errors.add(e.getMessage() );
         }
 		try {
-            validationEmail(email);
+            validationDate(date);
         } catch ( Exception e ) {
             errors.add(e.getMessage() );
         }
@@ -117,7 +179,7 @@ public class HomeView extends HttpServlet{
         	
         	//mainController.getMembers().add(new Member(name, email, birthdate));
         	Integer classeId = mainController.getClasseId(promo);
-        	mainController.updateMember(new Member(name, email,birth,classeId),id);
+        	mainController.updateCodeReview(new CodeReview(name, desc,date,classeId),id);
         	result = "Utilisateur \""+name+"\" crée avec succès.";
         } else {
             result = "Erreur lors de la création :";
@@ -128,18 +190,6 @@ public class HomeView extends HttpServlet{
         request.setAttribute("result", result);
 		this.doGet(request, response);
 		}
-		else if (bouton=="supprimerMember") {
-			mainController.deleteMember(id);
-			this.doGet(request, response);
-		}
-		else if (bouton=="supprimerCR") {
-			mainController.deleteCR(id);
-			this.doGet(request, response);
-		}
-		else if(bouton=="modifierCR") {
-			
-		}
-		
 	}
 	
 	private void validationName(String name) throws Exception {
@@ -154,6 +204,19 @@ public class HomeView extends HttpServlet{
 	        }
 	    } else {
 	        throw new Exception( "L'addresse email ne peut pas être vide" );
+	    }
+	}
+	
+	private void validationDate(String date) throws Exception {
+		SimpleDateFormat fmt = new SimpleDateFormat("dd/mm/yyyy");
+		if ( date != null && date.trim().length() != 0 ) {
+	        try {
+	        	fmt.parse(date);
+	        } catch (ParseException e) {
+	        	throw new Exception( "Le format de la date n'est pas valide." );
+	        }
+	    } else {
+	        throw new Exception( "La date ne peut pas être vide" );
 	    }
 	}
 	
