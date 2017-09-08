@@ -44,12 +44,11 @@ public class Member implements Serializable {
 		this.crclassId=classeId;
 	}
 	
-	public Member(String name, String email, String birthdate, CRClass crclass) {
+	public Member(String name, String email, Integer classeId) {
 		this.name=name;
 		this.email=email;
-		this.birthdate=birthdate;
-		this.crclass=crclass;
-}
+		this.crclassId=classeId;
+	}
 
 	public int getId() {
 		return this.id;

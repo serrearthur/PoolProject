@@ -22,8 +22,8 @@ public class HomeView extends HttpServlet{
 	public static final int memberPageSize=7;
 	public static final String FIELD_NAME   = "memberName";
 	public static final String FIELD_EMAIL   = "memberEmail";
-	public static final String FIELD_BIRTHDATE   = "memberBirthdate";
 	public static final String FIELD_PROMO   = "memberPromotion";
+	public static final String FIELD_ID  = "memberId";
 	
 	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 		MainController mainController=MainController.getInstance(); //recuperation du controlleur
@@ -47,8 +47,8 @@ public class HomeView extends HttpServlet{
 		MainController mainController=MainController.getInstance();
 		String name=request.getParameter(FIELD_NAME);
 		String email=request.getParameter(FIELD_EMAIL);
-		String birthdate=request.getParameter(FIELD_BIRTHDATE);
 		String promo=request.getParameter(FIELD_PROMO);
+		int id=Integer.parseInt(request.getParameter(FIELD_ID));
 		
 		String result;
         Vector<String> errors = new Vector<String>();
@@ -60,11 +60,6 @@ public class HomeView extends HttpServlet{
         }
 		try {
             validationEmail(email);
-        } catch ( Exception e ) {
-            errors.add(e.getMessage() );
-        }
-		try {
-            validationBirthdate(birthdate);
         } catch ( Exception e ) {
             errors.add(e.getMessage() );
         }
@@ -85,16 +80,16 @@ public class HomeView extends HttpServlet{
         	
         	//mainController.getMembers().add(new Member(name, email, birthdate));
         	Integer classeId = mainController.getClasseId(promo);
-        	mainController.updateMember(new Member(name, email, birthdate,classeId));
+        	mainController.updateMember(new Member(name, email,classeId),id);
         	result = "Utilisateur \""+name+"\" crée avec succès.";
         } else {
             result = "Erreur lors de la création :";
         }
 
-		request.setAttribute("controller", mainController);
+//		request.setAttribute("controller", mainController);
 		request.setAttribute("errors", errors );
         request.setAttribute("result", result);
-		this.getServletContext().getRequestDispatcher(View).forward(request, response );
+		this.doGet(request, response);
 	}
 	
 	private void validationName(String name) throws Exception {

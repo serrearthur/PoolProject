@@ -158,16 +158,20 @@
 													<tr>
 													<form action="" method="post" class="">
 													    <td><input type="text" class="input-lg form-control" id="name" name="memberName" placeholder="Nom" value="<c:out value="${m.name}"/>"></td>
-													    <td><input type="email" class="input-lg form-control" id="email" name="memberEmail" placeholder="Adresse Email" value="<c:out value="${m.email}"/>"></td>
+													    <td><input type="email" class="input-lg form-control" id="email" name="memberEmail" placeholder="Adresse Email" value="<c:out value="${m.email}"/>">
+													    <input type="hidden" class="input-lg form-control" id="id" name="memberId" value="<c:out value="${m.id}"/>"></td>
 													    <td><select class="input-lg form-control" id="promotion" name="memberPromotion">
-			                                            	<option>${controller.getClassName(m.getCrclassId())}</option>
 			                                                <c:forEach items="${controller.getClasses()}" var="p">
-			                                                	<option>${p.getName()}</option>
+			                                                	<option
+			                                                		<c:if test="${p.getId() == m.getCrclassId()}">
+			                                                			 selected
+			                                                		</c:if> >
+			                                                		${p.getName()}
+			                                                	</option>
 			                                                </c:forEach>
 			                                            </select></td>
 													    <td  class="text-right">
 													        <button type="submit" class="btn btn-sm btn-warning"> <i class="fa fa-pencil"></i> Modifier</button>
-													        <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Supprimer</a>
 													    </td>
 													</form>
 													</tr>
