@@ -244,7 +244,7 @@
                         <div class="panel-body">
                             <div class="list-group">
                             	<c:forEach items="${controller.classes}" var="cl">
-	                            	<a href="#" class="list-group-item">
+	                            	<a href="<c:url value="/show_promotion?promoId=${cl.id}"/>" class="list-group-item">
 	                                    <i class="fa fa-users fa-fw"></i> Promotion <c:out value="${cl.name}" />
 	                                    <span class="pull-right text-muted small"><em><c:out value="${cl.getCount()}" /> membres</em>
 	                                    </span>

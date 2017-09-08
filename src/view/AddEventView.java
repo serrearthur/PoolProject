@@ -21,7 +21,7 @@ public class AddEventView extends HttpServlet {
 	public static final String View="/WEB-INF/add_event.jsp";
 	public static final String FIELD_NAME   = "eventName";
 	public static final String FIELD_DATE   = "eventDate";
-	public static final String FIELD_DESCRIPTION   = "eventBirthdate";
+	public static final String FIELD_DESCRIPTION   = "eventDescription";
 	public static final String FIELD_PROMO   = "eventPromotion";
 	
 	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
