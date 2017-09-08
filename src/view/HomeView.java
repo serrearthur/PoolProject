@@ -105,6 +105,7 @@ public class HomeView extends HttpServlet{
 		}
 		else {
 			mainController.deleteMember(id);
+			this.doGet(request, response);
 		}
 	}
 	
