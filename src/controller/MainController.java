@@ -75,7 +75,7 @@ public class MainController {
 		Vector<Member> members = (Vector) q.getResultList();
 		return members;
 	}
-
+	
 	/* MEMBER */
 	public Vector<Member> getMembers() {
 		Query q = em.createQuery("SELECT m FROM Member m ");

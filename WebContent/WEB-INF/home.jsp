@@ -157,6 +157,7 @@
 													<tr>
 													<form action="" method="post" class="">
 													    <td><input type="text" class="input-lg form-control" id="name" name="memberName" placeholder="Nom" value="${m.name}"></td>
+													    <td><input type="hidden" class="input-lg form-control" id="birthdate" name="memberBirthdate" placeholder="Date de naissance (dd/mm/yyyy)" value="<c:out value="${m.birthdate}"/>"></td>
 													    <td><input type="email" class="input-lg form-control" id="email" name="memberEmail" placeholder="Adresse Email" value="${m.email}">
 													    <input type="hidden" class="input-lg form-control" id="id" name="memberId" value="${m.id}"></td>
 													    <td><select class="input-lg form-control" id="promotion" name="memberPromotion">

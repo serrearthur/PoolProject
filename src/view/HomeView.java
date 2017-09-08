@@ -25,6 +25,7 @@ public class HomeView extends HttpServlet{
 	public static final String FIELD_EMAIL   = "memberEmail";
 	public static final String FIELD_PROMO   = "memberPromotion";
 	public static final String FIELD_ID  = "memberId";
+	public static final String FIELD_BIRTH = "memberBirthdate";
 	
 	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
 		MainController mainController=MainController.getInstance(); //recuperation du controlleur
@@ -60,6 +61,7 @@ public class HomeView extends HttpServlet{
 		String name=request.getParameter(FIELD_NAME);
 		String email=request.getParameter(FIELD_EMAIL);
 		String promo=request.getParameter(FIELD_PROMO);
+		String birth=request.getParameter(FIELD_BIRTH);
 		
 		
 		String result;
@@ -92,7 +94,7 @@ public class HomeView extends HttpServlet{
         	
         	//mainController.getMembers().add(new Member(name, email, birthdate));
         	Integer classeId = mainController.getClasseId(promo);
-        	mainController.updateMember(new Member(name, email,classeId),id);
+        	mainController.updateMember(new Member(name, email,birth,classeId),id);
         	result = "Utilisateur \""+name+"\" crée avec succès.";
         } else {
             result = "Erreur lors de la création :";
