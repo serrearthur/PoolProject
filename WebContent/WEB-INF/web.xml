@@ -52,5 +52,15 @@
 	    <servlet-name>AddEventView</servlet-name>
 	    <url-pattern>/add_event</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+	    <servlet-name>ShowPromotionView</servlet-name>
+	    <servlet-class>view.ShowPromotionView</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	    <servlet-name>ShowPromotionView</servlet-name>
+	    <url-pattern>/show_promotion</url-pattern>
+	</servlet-mapping>
 
 </web-app>

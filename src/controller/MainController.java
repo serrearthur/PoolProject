@@ -137,6 +137,13 @@ public class MainController {
 		setClassCount();
 	}
 	
+	public Member getMemberById(int id) {
+		Query q = em.createQuery("SELECT m FROM Member m WHERE m.id = :id");
+		q.setParameter("id",id);
+		Member member = (Member)q.getSingleResult();
+		return member;
+	}
+	
 	public Vector<Member> getMemberSubest(int start, int size) {
 		Vector<Member> ret = new Vector<Member>();
 		for (int i=start; i<start+size; i++) {

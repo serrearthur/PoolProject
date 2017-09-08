@@ -48,7 +48,7 @@ public class HomeView extends HttpServlet{
 		MainController mainController=MainController.getInstance();
 		boolean flag = false;
 		
-		Enumeration names = request.getParameterNames();
+		Enumeration<String> names = request.getParameterNames();
 		
 		for(;names.hasMoreElements();) {
 			if(names.nextElement().equals("supprimer")) flag=true;			
