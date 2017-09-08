@@ -157,6 +157,7 @@
 													<tr>
 													<form action="" method="post" class="">
 													    <td><input type="text" class="input-lg form-control" id="name" name="memberName" placeholder="Nom" value="${m.name}"></td>
+													    <td><input type="hidden" class="input-lg form-control" id="birthdate" name="memberBirthdate" placeholder="Date de naissance (dd/mm/yyyy)" value="<c:out value="${m.birthdate}"/>"></td>
 													    <td><input type="email" class="input-lg form-control" id="email" name="memberEmail" placeholder="Adresse Email" value="${m.email}">
 													    <input type="hidden" class="input-lg form-control" id="id" name="memberId" value="${m.id}"></td>
 													    <td><select class="input-lg form-control" id="promotion" name="memberPromotion">
@@ -168,8 +169,8 @@
 			                                                </c:forEach>
 			                                            </select></td>
 													    <td  class="text-right">
-													        <button type="submit" class="btn btn-sm btn-warning" name="modifier"> <i class="fa fa-pencil"></i> Modifier</button>
- 													        <button type="submit" class="btn btn-sm btn-danger" name="supprimer"><i class="fa fa-trash"></i> Supprimer</button>
+													        <button type="submit" class="btn btn-sm btn-warning" name="modifierMember"> <i class="fa fa-pencil"></i> Modifier</button>
+ 													        <button type="submit" class="btn btn-sm btn-danger" name="supprimerMember"><i class="fa fa-trash"></i> Supprimer</button>
 													    </td>
 													</form>
 													</tr>
@@ -197,9 +198,6 @@
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-8 -->
-                <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-calendar fa-fw"></i> Codes reviews programmées
@@ -208,9 +206,24 @@
                             <table class="table table-striped">
  								<c:forEach items="${controller.codeReviews}" var="cr">
 	 								<tr>
-	                                    <td><c:out value="${cr.name}" /></td>
-	                                    <td>Promotion <c:out value="${controller.getClassName(cr.getCrclassId())}" /></td>
-	                                    <td class="text-right"><span class="text-muted small"><c:out value="${cr.dateTime}" /></span></td>
+	 								<form action="" method="post" class="">
+									    <td><input type="text" class="input-lg form-control" id="crName" name="crName" placeholder="NomCodeReview" value="${cr.name}"></td>
+									    <td><input type="hidden" class="input-lg form-control" id="desc" name="crDesc" placeholder="Description" value="<c:out value="${m.description}"/>"></td>
+									    <td class="text-right"><span class="text-muted small"><input type="date" class="input-lg form-control" id="crDate" name="crDate" placeholder="Date" value="${cr.dateTime}"></span>
+									    <input type="hidden" class="input-lg form-control" id="id" name="crId" value="${cr.id}"></td>
+									    <td><select class="input-lg form-control" id="promotion" name="crPromotion">
+									    <option></option>
+                                               <c:forEach items="${controller.getClasses()}" var="p">			                                                
+                                               	<option <c:if test="${p.getId()==cr.getCrclassId()}"> selected </c:if> >
+                                               	${p.getName()}
+                                               	</option>
+                                               </c:forEach>
+                                           </select></td>
+									    <td  class="text-right">
+									        <button type="submit" class="btn btn-sm btn-warning" name="modifierCR"> <i class="fa fa-pencil"></i> Modifier</button>
+										        <button type="submit" class="btn btn-sm btn-danger" name="supprimerCR"><i class="fa fa-trash"></i> Supprimer</button>
+									    </td>
+									</form>
 	                                </tr>
 	                            </c:forEach>
                             </table>
@@ -219,6 +232,9 @@
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-8 -->
+                <div class="col-lg-4">
 
                     <div class="panel panel-default">
                         <div class="panel-heading">

@@ -69,13 +69,24 @@ public class MainController {
 	    }
 	}
 	
+	public void updateCodeReview(CodeReview codeReview, int id) {
+		try {
+			em.getTransaction().begin();
+			codeReview.setId(id);
+			em.merge(codeReview);
+			em.getTransaction().commit();
+	    } catch (Exception e) {
+	    	em.getTransaction().rollback();
+	    }
+	}
+	
 	public Vector<Member> getMembersClass(int id){	
 		Query q = em.createQuery("SELECT m FROM Member m WHERE m.crclassId = :id");
 		q.setParameter("id",id);
 		Vector<Member> members = (Vector) q.getResultList();
 		return members;
 	}
-
+	
 	/* MEMBER */
 	public Vector<Member> getMembers() {
 		Query q = em.createQuery("SELECT m FROM Member m ");
@@ -183,6 +194,16 @@ public class MainController {
 	    }
 	}
 	
+	public void deleteCR(int id) {		
+		try {
+			em.getTransaction().begin();
+			CodeReview crc = em.find(CodeReview.class, id);
+			em.remove(crc);
+			em.getTransaction().commit();
+	    } catch (Exception e) {
+	    	em.getTransaction().rollback();
+	    }
+	}	
 	
 	public String getClassName(int id) {
 		try{

@@ -37,7 +37,7 @@ public class CodeReview implements Serializable {
 		this.description=description;
 		this.dateTime=datetime;
 		this.crclassId = crclassId;
-}
+	}
 
 	public int getId() {
 		return this.id;
