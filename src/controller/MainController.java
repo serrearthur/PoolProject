@@ -121,7 +121,7 @@ public class MainController {
 			if(members.get(j).getId() == id) {
 				for(int i = 0 ; i < classes.size() ; i++) {
 					if(members.get(j).getCrclassId() == classes.get(i).getId()){
-						classes.get(i).setCount(classes.get(i).getCount()-11);
+						classes.get(i).setCount(classes.get(i).getCount()-1);
 						i=classes.size();
 					}
 				}

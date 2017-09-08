@@ -167,7 +167,7 @@
 			                                            </select></td>
 													    <td  class="text-right">
 													        <button type="submit" class="btn btn-sm btn-warning"> <i class="fa fa-pencil"></i> Modifier</button>
-													        <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Supprimer</a>
+<%-- 													        <button type="button" onClick="${controller.deleteMember(m.getId())}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> ${m.getId()}Supprimer</button> --%>
 													    </td>
 													</form>
 													</tr>
