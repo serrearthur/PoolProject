@@ -1,10 +1,10 @@
 package controller;
 
-import java.text.ParseException;
 import java.util.Vector;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -42,7 +42,7 @@ public class MainController {
         em = factory.createEntityManager();
         
 		// Remplit les listes avec les infos de la BDD
-        members = this.getMembers();
+       // members = this.getMembers();
 		codeReviews = this.getCodeReviews();
 		classes = this.getClasses();
 
@@ -59,19 +59,21 @@ public class MainController {
 		return codeReviews;
 	}
 
-	public void setCodeReview(CodeReview codeReview) {
-		em.getTransaction().begin();
-		em.persist(codeReview);
-		em.getTransaction().commit();
+	public void setCodeReview(CodeReview codeReview) {		
+		try {
+			em.getTransaction().begin();
+			em.persist(codeReview);
+			em.getTransaction().commit();
+	    } catch (Exception e) {
+	    	em.getTransaction().rollback();
+	    }
 	}
 	
-	public int deleteCodeReview(int id) {
-		em.getTransaction().begin();
-		Query q = em.createQuery("DELETE FROM CodeReview WHERE id = :id");
-		q.setParameter("id", id);
-		int result = q.executeUpdate();
-		em.getTransaction().commit();
-		return result;
+	public Vector<Member> getMembersClass(int id){	
+		Query q = em.createQuery("SELECT m FROM Member m WHERE m.crclassId = :id");
+		q.setParameter("id",id);
+		Vector<Member> members = (Vector) q.getResultList();
+		return members;
 	}
 
 	/* MEMBER */
@@ -81,10 +83,14 @@ public class MainController {
 		return members;
 	}
 
-	public void setMember(Member member) {
-		em.getTransaction().begin();
-		em.persist(member);
-		em.getTransaction().commit();
+	public void setMember(Member member) {		
+		try {
+			em.getTransaction().begin();
+			em.persist(member);
+			em.getTransaction().commit();
+	    } catch (Exception e) {
+	    	em.getTransaction().rollback();
+	    }
 
 		for(int i = 0 ; i < classes.size() ; i++) {
 			if(member.getCrclassId() == classes.get(i).getId()){
@@ -94,17 +100,16 @@ public class MainController {
 		}
 	}
 	
-	public int deleteMember(int id) {
-		em.getTransaction().begin();
-		Member member = em.find(Member.class, id);
-		em.remove(member);
-		/*
-		Query q = em.createQuery("DELETE FROM Member WHERE id = :id");
-		q.setParameter("id", id);
-		int result = q.executeUpdate();
-		*/
-		em.getTransaction().commit();
-		//members = this.getMembers();
+	public void deleteMember(int id) {
+		
+		try {
+			em.getTransaction().begin();
+			Member member = em.find(Member.class, id);
+			em.remove(member);
+			em.getTransaction().commit();
+	    } catch (Exception e) {
+	    	em.getTransaction().rollback();
+	    }
 		
 		for(int j=0; j<members.size();j++) {
 			if(members.get(j).getId() == id) {
@@ -117,30 +122,19 @@ public class MainController {
 				j=members.size();
 			}
 		}
-		
-		return 1;
 	}
 	
-	public int updateMember(Member member, int id) {
-		em.getTransaction().begin();
-		member.setId(id);
-		em.merge(member);/*
-		Query q = em.createQuery(" UPDATE Member SET name= :name"
-				+ ", email= :email"
-				+ ", crclassId= :crclass_id "
-				+ " WHERE id = :id ");
-		
-		q.setParameter("name", member.getName());
-		q.setParameter("email", member.getEmail());
-		q.setParameter("crclass_id", member.getCrclassId());
-		q.setParameter("id", id);
-		int result = q.executeUpdate();
-*/
-		em.getTransaction().commit();
+	public void updateMember(Member member, int id) {
+		try {
+			em.getTransaction().begin();
+			member.setId(id);
+			em.merge(member);
+			em.getTransaction().commit();
+	    } catch (Exception e) {
+	    	em.getTransaction().rollback();
+	    }
+
 		setClassCount();
-		//members = this.getMembers();
-		
-		return 1;
 	}
 	
 	public Vector<Member> getMemberSubest(int start, int size) {
@@ -150,7 +144,7 @@ public class MainController {
 			ret.add(members.get(i));
 		}
 		return ret;
-}
+	}
 
 	/* CLASS */
 	public Vector<CRClass> getClasses() {
@@ -173,32 +167,36 @@ public class MainController {
 	}
 	
 	public void setClasse(CRClass classe) {
-		em.getTransaction().begin();
-		em.persist(classe);
-		em.getTransaction().commit();
+		try {
+			em.getTransaction().begin();
+			em.persist(classe);
+			em.getTransaction().commit();
+	    } catch (Exception e) {
+	    	em.getTransaction().rollback();
+	    }
 	}
 	
-	public int deleteClasse(int id) {
-		em.getTransaction().begin();
-		Query q = em.createQuery("DELETE FROM CRClass WHERE id = :id");
-		q.setParameter("id", id);
-		int result = q.executeUpdate();
-		em.getTransaction().commit();
-		return result;
-	}
 	
 	public String getClassName(int id) {
-		Query q = em.createQuery("SELECT c.name FROM CRClass c WHERE c.id = :id");
-		q.setParameter("id",id);
-		String nom = (String) q.getSingleResult();
-		return nom;
+		try{
+			Query q = em.createQuery("SELECT c.name FROM CRClass c WHERE c.id = :id");
+			q.setParameter("id",id);
+			String nom = (String) q.getSingleResult();
+			return nom;
+	    } catch(NoResultException e) {
+	        return null;
+	    }
 	}
 	
-	public Integer getClasseId(String nom) {
-		Query q = em.createQuery("SELECT c.id FROM CRClass c WHERE c.name = :nom");
-		q.setParameter("nom",nom);
-		Integer id = (Integer) q.getSingleResult();
-		return id;
+	public Integer getClasseId(String nom) {		
+		try{
+			Query q = em.createQuery("SELECT c.id FROM CRClass c WHERE c.name = :nom");
+			q.setParameter("nom",nom);
+			Integer id = (Integer) q.getSingleResult();
+			return id;
+	    } catch(NoResultException e) {
+	        return 0;
+	    }
 	}
 
 }
