@@ -69,37 +69,8 @@ public class MainController {
 		em.getTransaction().begin();
 		Query q = em.createQuery("DELETE FROM CodeReview WHERE id = :id");
 		q.setParameter("id", id);
-		int result;
-		try {
-			result = q.executeUpdate();
-			em.getTransaction().commit();
-		} catch (RuntimeException e) {
-			result = -1;
-			em.getTransaction().rollback();
-		}
-		return result;
-	}
-	
-	public int updateCodeReview(CodeReview codeReview) {
-		em.getTransaction().begin();
-		Query q = em.createQuery(" UPDATE CodeReview SET name= :name"
-				+ ", description= :description"
-				+ ", dateTime= :dateTime"
-				+ " WHERE id = :id ");
-		
-		q.setParameter("name", codeReview.getName());
-		q.setParameter("desciption", codeReview.getDescription());
-		q.setParameter("dateTime", codeReview.getDateTime());
-		q.setParameter("id", codeReview.getId());
-		int result;
-		try {
-			result = q.executeUpdate();
-			em.getTransaction().commit();
-		} catch (RuntimeException e) {
-			result = -1;
-			em.getTransaction().rollback();
-		}
-		members = this.getMembers();
+		int result = q.executeUpdate();
+		em.getTransaction().commit();
 		return result;
 	}
 
@@ -112,27 +83,28 @@ public class MainController {
 
 	public void setMember(Member member) {
 		em.getTransaction().begin();
-		try {
-			em.persist(member);
-			em.getTransaction().commit();
-		} catch (RuntimeException e) {
-			em.getTransaction().rollback();
+		em.persist(member);
+		em.getTransaction().commit();
+
+		for(int i = 0 ; i < classes.size() ; i++) {
+			if(member.getCrclassId() == classes.get(i).getId()){
+				classes.get(i).setCount(classes.get(i).getCount()+1);
+				i=classes.size();
+			}
 		}
-		this.getMembers();
 	}
 	
 	public int deleteMember(int id) {
 		em.getTransaction().begin();
+		Member member = em.find(Member.class, id);
+		em.remove(member);
+		/*
 		Query q = em.createQuery("DELETE FROM Member WHERE id = :id");
 		q.setParameter("id", id);
-		int result;
-		try {
-			result = q.executeUpdate();
-			em.getTransaction().commit();
-		} catch (RuntimeException e) {
-			result = -1;
-			em.getTransaction().rollback();
-		}
+		int result = q.executeUpdate();
+		*/
+		em.getTransaction().commit();
+		//members = this.getMembers();
 		
 		for(int j=0; j<members.size();j++) {
 			if(members.get(j).getId() == id) {
@@ -146,25 +118,33 @@ public class MainController {
 			}
 		}
 		
-		return result;
+		return 1;
 	}
 	
 	public int updateMember(Member member, int id) {
 		em.getTransaction().begin();
 		member.setId(id);
+		em.merge(member);/*
+		Query q = em.createQuery(" UPDATE Member SET name= :name"
+				+ ", email= :email"
+				+ ", crclassId= :crclass_id "
+				+ " WHERE id = :id ");
 		
-		em.merge(member);
-
-		
+		q.setParameter("name", member.getName());
+		q.setParameter("email", member.getEmail());
+		q.setParameter("crclass_id", member.getCrclassId());
+		q.setParameter("id", id);
+		int result = q.executeUpdate();
+*/
+		em.getTransaction().commit();
 		setClassCount();
-		getMembers();
+		//members = this.getMembers();
 		
 		return 1;
 	}
 	
 	public Vector<Member> getMemberSubest(int start, int size) {
 		Vector<Member> ret = new Vector<Member>();
-		getMembers();
 		for (int i=start; i<start+size; i++) {
 			if (i>=members.size()) break;
 			ret.add(members.get(i));
@@ -202,18 +182,6 @@ public class MainController {
 		em.getTransaction().begin();
 		Query q = em.createQuery("DELETE FROM CRClass WHERE id = :id");
 		q.setParameter("id", id);
-		int result = q.executeUpdate();
-		em.getTransaction().commit();
-		return result;
-	}
-	
-	public int updateClasse(CRClass classe) {
-		em.getTransaction().begin();
-		Query q = em.createQuery(" UPDATE CRClass SET name= :name"
-				+ " WHERE id = :id ");
-		
-		q.setParameter("name", classe.getName());
-		q.setParameter("id", classe.getId());
 		int result = q.executeUpdate();
 		em.getTransaction().commit();
 		return result;
